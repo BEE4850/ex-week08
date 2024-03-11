@@ -87,6 +87,7 @@ Let's revisit the 2015 Sewell's Point tide gauge data, which consists of hourly 
 ```{julia}
 #| output: true
 #| echo: true
+#| code-overflow: wrap
 
 function load_data(fname)
     date_format = "yyyy-mm-dd HH:MM"
@@ -107,16 +108,7 @@ end
 dat = load_data("data/surge/norfolk-hourly-surge-2015.csv")
 ```
 
-We detrend the data to isolate the weather-induced variability by subtracting the predictions from the observations; the results (following the Julia code) are in `dat[:, :weather]`. 
-
-```{julia}
-#| echo: true
-#| output: true
-
-plot(dat.datetime, dat.weather; ylabel="Gauge Weather Variability (m)", label="Detrended Data", linewidth=1, legend=:topleft, xlabel="Date/Time")
-```
-
-We would like to understand the uncertainty in an estimate of the median level of weather-induced variability.
+We detrend the data to isolate the weather-induced variability by subtracting the predictions from the observations; the results (following the Julia code) are in `dat[:, :weather]`. We would like to understand the uncertainty in an estimate of the median level of weather-induced variability.
 
 **In this problem**:
 
