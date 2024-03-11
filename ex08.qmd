@@ -9,6 +9,7 @@ format:
     ipynb:
         warning: true
         error: true
+        eval: true
 jupyter: julia-1.9
 freeze: false
 ---
@@ -73,6 +74,7 @@ using StatsBase # statistical quantities like mean, median, etc
 using StatsPlots # some additional statistical plotting tools
 using DataFrames # tabular data storage
 using DataFramesMeta # API for chaining DataFrames commands
+using Dates # datetime API
 using CSV # read/write CSV files
 using Random
 ```
@@ -82,11 +84,13 @@ using Random
 
 ### Problem 1
 
-Let's revisit the 2015 Sewell's Point tide gauge data, which consists of hourly observations and predicted sea-level based on NOAA's harmonic model.
+Let's revisit the 2015 Sewell's Point tide gauge data, which consists of hourly observations and predicted sea-level based on NOAA's harmonic model, as shown in @fig-norfolk-data.
 
 ```{julia}
 #| output: true
 #| echo: true
+#| label: fig-norfolk-data
+#| fig-cap: "2015 data from the Sewell's Point tide gauge, including NOAA's predictions for sea-level harmonics."
 
 function load_data(fname)
     date_format = "yyyy-mm-dd HH:MM"
@@ -105,9 +109,23 @@ function load_data(fname)
 end
 
 dat = load_data("data/norfolk-hourly-surge-2015.csv")
+
+plot(dat.datetime, dat.gauge; ylabel="Gauge Measurement (m)", label="Observed", legend=:topleft, xlabel="Date/Time", color=:blue)
+plot!(dat.datetime, dat.harmonic, label="Prediction", color=:orange)
 ```
 
-We detrend the data to isolate the weather-induced variability by subtracting the predictions from the observations; the results (following the Julia code) are in `dat[:, :weather]`. We would like to understand the uncertainty in an estimate of the median level of weather-induced variability.
+We detrend the data to isolate the weather-induced variability by subtracting the predictions from the observations; the results (following the Julia code) are in `dat[:, :weather]`, visualized in @fig-norfolk-data-detrend. 
+
+```{julia}
+#| output: true
+#| echo: true
+#| label: fig-norfolk-data-detrend
+#| fig-cap: "Detrended 2015 data from the Sewell's Point tide gauge."
+
+plot(dat.datetime, dat.weather; ylabel="Gauge Weather Variability (m)", label="Detrended Data", linewidth=1, legend=:topleft, xlabel="Date/Time")
+```
+
+We would like to understand the uncertainty in an estimate of the median level of weather-induced variability.
 
 **In this problem**:
 
