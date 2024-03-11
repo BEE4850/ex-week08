@@ -105,7 +105,7 @@ function load_data(fname)
     end
 end
 
-dat = load_data("data/surge/norfolk-hourly-surge-2015.csv")
+dat = load_data("data/norfolk-hourly-surge-2015.csv")
 ```
 
 We detrend the data to isolate the weather-induced variability by subtracting the predictions from the observations; the results (following the Julia code) are in `dat[:, :weather]`. We would like to understand the uncertainty in an estimate of the median level of weather-induced variability.
