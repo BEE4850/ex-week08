@@ -87,7 +87,6 @@ Let's revisit the 2015 Sewell's Point tide gauge data, which consists of hourly 
 ```{julia}
 #| output: true
 #| echo: true
-#| code-overflow: wrap
 
 function load_data(fname)
     date_format = "yyyy-mm-dd HH:MM"
